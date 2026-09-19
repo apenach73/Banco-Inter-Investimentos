@@ -1,0 +1,6 @@
+{
+  "name": "Banco Inter - Investimentos",
+  "description": "App de investimento Banco Inter com carteira diversificada de FIIs, aporte de R$ 10.000 em maio/2026, saldo bloqueado até 31/10/2026 e rendimento de 13,25% corrigido até a presente data.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
