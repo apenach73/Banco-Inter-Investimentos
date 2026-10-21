@@ -125,7 +125,7 @@ export const ProjectionSimulator: React.FC<ProjectionSimulatorProps> = ({ showVa
                 {selectedUnlockAction === 'checking_account' && <CheckCircle className="h-4 w-4 text-[#FF7A00]" />}
               </div>
               <p className="text-[11px] text-slate-600 leading-relaxed font-medium">
-                Liquidação integral e crédito de todo o saldo corrigido na Conta Corrente Inter no dia 31/10/2026.
+                Liquidação integral e crédito de todo o saldo corrigido na Conta Corrente Inter no dia 31/10/2026. Caso a data de desbloqueio seja nos finais de semana, o saque só poderá ser solicitado no próximo dia útil. A solicitação de saque segue as normas da B3, sendo creditado somente um dia após o pedido.
               </p>
             </div>
             <span className="mt-2 text-[10px] text-slate-500 font-semibold">Sem taxa de resgate</span>
