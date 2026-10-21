@@ -13,28 +13,42 @@ import { ProjectionSimulator } from './components/ProjectionSimulator';
 import { AssetDetailModal } from './components/AssetDetailModal';
 import { DividendHistoryModal } from './components/DividendHistoryModal';
 import { OfficialReportModal } from './components/OfficialReportModal';
+import { BiometricAccessModal } from './components/BiometricAccessModal';
 import { FIIAsset } from './types';
-import { portfolioSummary } from './data/portfolioData';
-import { ShieldCheck, HelpCircle, PhoneCall, ExternalLink } from 'lucide-react';
+import { calculateInvestmentMetrics } from './utils/dateCalculations';
+import { ShieldCheck, Lock, Fingerprint } from 'lucide-react';
 
 export default function App() {
   const [showValues, setShowValues] = useState<boolean>(true);
+  const [isBiometricAuthenticated, setIsBiometricAuthenticated] = useState<boolean>(false);
   const [selectedAsset, setSelectedAsset] = useState<FIIAsset | null>(null);
   const [isDividendModalOpen, setIsDividendModalOpen] = useState<boolean>(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState<boolean>(false);
 
+  const metrics = calculateInvestmentMetrics();
+
   return (
     <div className="min-h-screen bg-[#F6F7F9] text-[#191C21] flex flex-col selection:bg-[#FF7A00] selection:text-white">
-      {/* Top Banco Inter Navigation */}
+      {/* Biometric Authentication Lock Screen for Mobile / Device Fingerprint */}
+      <BiometricAccessModal
+        isOpen={!isBiometricAuthenticated}
+        onAuthenticated={() => setIsBiometricAuthenticated(true)}
+        userName="Alexandre Penante da Rocha"
+        accountNumber="Conta Inter Invest: 9482103-7"
+      />
+
+      {/* Top BANCO INTER Navigation Header */}
       <Header
         showValues={showValues}
         setShowValues={setShowValues}
         onOpenReport={() => setIsReportModalOpen(true)}
+        onTriggerBiometricLock={() => setIsBiometricAuthenticated(false)}
+        isBiometricActive={isBiometricAuthenticated}
       />
 
       {/* Main Content Area */}
       <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8 space-y-6">
-        {/* 1. Hero: Montante Total Corrigido & Rendimento de 13,25% */}
+        {/* 1. Hero: Montante Total Corrigido & Rendimento de 14,25% até a data do celular */}
         <section aria-label="Consolidado de investimentos">
           <ConsolidatedHero
             showValues={showValues}
@@ -60,8 +74,8 @@ export default function App() {
           <ProjectionSimulator showValues={showValues} />
         </section>
 
-        {/* 5. Banner de Saldo Bloqueado e Carência no Fim do App */}
-        <section aria-label="Aviso de carência e bloqueio">
+        {/* 5. Seção de Saldo Bloqueado para Resgate - Localizada no Fim do App */}
+        <section aria-label="Aviso de carência e bloqueio no fim do app">
           <LockedNoticeBanner showValues={showValues} />
         </section>
 
@@ -90,9 +104,9 @@ export default function App() {
       {/* Footer */}
       <footer className="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
         <div className="mx-auto max-w-7xl px-4">
-          <p className="font-semibold text-slate-700">© 2026 Banco Inter S.A. - Inter DTVM Ltda. Todos os direitos reservados.</p>
+          <p className="font-semibold text-slate-700">© 2026 BANCO INTER S.A. - Inter DTVM Ltda. Todos os direitos reservados.</p>
           <p className="mt-1 text-[11px] text-slate-500">
-            Acompanhamento de custódia e rendimento até {portfolioSummary.currentDate}. Rendimentos passados não garantem rentabilidade futura.
+            Acompanhamento de custódia e rendimento corrigido até a data atual ({metrics.currentDateFormatted}). Rendimentos passados não garantem rentabilidade futura.
           </p>
         </div>
       </footer>

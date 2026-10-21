@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { TrendingUp, Calendar, Info, ShieldCheck, HelpCircle } from 'lucide-react';
 import { monthlyEvolutionChartData } from '../data/portfolioData';
+import { calculateInvestmentMetrics } from '../utils/dateCalculations';
 
 interface EvolutionChartProps {
   showValues: boolean;
 }
 
 export const EvolutionChart: React.FC<EvolutionChartProps> = ({ showValues }) => {
-  const [selectedIndex, setSelectedIndex] = useState<number>(4); // default: 19 Set/26 (current)
+  const [selectedIndex, setSelectedIndex] = useState<number>(4); // default: current position (index 4)
+  const metrics = calculateInvestmentMetrics();
 
   const activeData = monthlyEvolutionChartData[selectedIndex];
 
@@ -18,7 +20,7 @@ export const EvolutionChart: React.FC<EvolutionChartProps> = ({ showValues }) =>
 
   // SVG Chart Dimensions
   const chartHeight = 180;
-  const minVal = 9500;
+  const minVal = 9800;
   const maxVal = 12000;
 
   const getY = (val: number) => {
@@ -107,22 +109,22 @@ export const EvolutionChart: React.FC<EvolutionChartProps> = ({ showValues }) =>
             {/* Path for Area fill */}
             <path
               d={`M 20 ${getY(10000)} 
-                 L 115 ${getY(10320)} 
-                 L 210 ${getY(10680)} 
-                 L 305 ${getY(11050)} 
-                 L 400 ${getY(11325)} 
+                 L 115 ${getY(10340)} 
+                 L 210 ${getY(10710)} 
+                 L 305 ${getY(11090)} 
+                 L 400 ${getY(11425)} 
                  L 400 180 
                  L 20 180 Z`}
               fill="url(#interGradient)"
             />
 
-            {/* Solid Line up to present date (19 Set) */}
+            {/* Solid Line up to present date */}
             <path
               d={`M 20 ${getY(10000)} 
-                 L 115 ${getY(10320)} 
-                 L 210 ${getY(10680)} 
-                 L 305 ${getY(11050)} 
-                 L 400 ${getY(11325)}`}
+                 L 115 ${getY(10340)} 
+                 L 210 ${getY(10710)} 
+                 L 305 ${getY(11090)} 
+                 L 400 ${getY(11425)}`}
               fill="none"
               stroke="#FF7A00"
               strokeWidth="3.5"
@@ -131,7 +133,7 @@ export const EvolutionChart: React.FC<EvolutionChartProps> = ({ showValues }) =>
 
             {/* Dashed line to projected unlock date (31 Out) */}
             <path
-              d={`M 400 ${getY(11325)} L 490 ${getY(11762.4)}`}
+              d={`M 400 ${getY(11425)} L 490 ${getY(11840)}`}
               fill="none"
               stroke="#FF7A00"
               strokeWidth="2.5"
@@ -140,7 +142,7 @@ export const EvolutionChart: React.FC<EvolutionChartProps> = ({ showValues }) =>
             />
 
             {/* Lock-up indicator marker on 31 Out */}
-            <circle cx="490" cy={getY(11762.4)} r="5" fill="#FF7A00" stroke="#FFFFFF" strokeWidth="2" />
+            <circle cx="490" cy={getY(11840)} r="5" fill="#FF7A00" stroke="#FFFFFF" strokeWidth="2" />
           </svg>
 
           {/* Interactive Clickable Nodes */}
@@ -208,11 +210,11 @@ export const EvolutionChart: React.FC<EvolutionChartProps> = ({ showValues }) =>
           </div>
           <div className="flex items-center gap-1.5 font-bold text-slate-800">
             <span className="h-2 w-2 rounded-full bg-emerald-500" />
-            <span>Posição atual em 19/09/2026: +13,25%</span>
+            <span>Posição atual: +14,25% (R$ 11.425,00)</span>
           </div>
           <div className="flex items-center gap-1.5 font-medium">
             <span className="h-2 w-2 rounded-full bg-[#FF7A00]" />
-            <span>Fim da carência em 31/10/2026 (Restam 42 dias)</span>
+            <span>Desbloqueio em 31/10/2026 ({metrics.daysRemaining} dias restantes)</span>
           </div>
         </div>
       </div>

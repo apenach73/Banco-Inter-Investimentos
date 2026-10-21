@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, Lock, Unlock, ArrowRight, ShieldCheck, CheckCircle, Sparkles, RefreshCw } from 'lucide-react';
-import { portfolioSummary } from '../data/portfolioData';
+import { calculateInvestmentMetrics } from '../utils/dateCalculations';
 
 interface ProjectionSimulatorProps {
   showValues: boolean;
@@ -8,7 +8,7 @@ interface ProjectionSimulatorProps {
 
 export const ProjectionSimulator: React.FC<ProjectionSimulatorProps> = ({ showValues }) => {
   const [selectedUnlockAction, setSelectedUnlockAction] = useState<'reinvest' | 'checking_account' | 'keep_fii'>('keep_fii');
-  const [simulatedAporte, setSimulatedAporte] = useState<number>(10000);
+  const metrics = calculateInvestmentMetrics();
 
   const formatBRL = (val: number) => {
     if (!showValues) return 'R$ ••••••••';
@@ -31,8 +31,8 @@ export const ProjectionSimulator: React.FC<ProjectionSimulatorProps> = ({ showVa
           </p>
         </div>
 
-        <div className="rounded-full bg-[#FFF9F5] px-3 py-1 text-xs font-black text-[#FF7A00] border border-[#FF7A00]/25">
-          Faltam 42 dias
+        <div className="rounded-full bg-[#FFF9F5] px-3.5 py-1 text-xs font-black text-[#FF7A00] border border-[#FF7A00]/25">
+          Faltam {metrics.daysRemaining} dias ({metrics.percentElapsed}% decorrido)
         </div>
       </div>
 
@@ -42,24 +42,24 @@ export const ProjectionSimulator: React.FC<ProjectionSimulatorProps> = ({ showVa
         <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200/80">
           <span className="text-xs text-slate-500 font-medium block">Aporte Inicial (Maio/26)</span>
           <p className="font-mono text-lg sm:text-xl font-bold text-slate-900 mt-1">
-            {formatBRL(portfolioSummary.initialContribution)}
+            {formatBRL(metrics.initialContribution)}
           </p>
-          <span className="text-[11px] text-slate-400 block mt-1">Capital inicial investido</span>
+          <span className="text-[11px] text-slate-400 block mt-1">Data: {metrics.contributionDate}</span>
         </div>
 
         {/* Box 2: Presente Data */}
         <div className="rounded-2xl bg-[#FFF9F5] p-4 border border-[#FF7A00]/30 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#FF7A00] font-bold block">Hoje ({portfolioSummary.currentDate})</span>
+            <span className="text-xs text-[#FF7A00] font-bold block">Hoje ({metrics.currentDateShort})</span>
             <span className="rounded bg-[#FF7A00]/20 px-1.5 py-0.5 text-[10px] font-black text-[#FF7A00]">
-              Atual
+              Atual (+14,25%)
             </span>
           </div>
           <p className="font-mono text-xl sm:text-2xl font-black text-slate-900 mt-1">
-            {formatBRL(portfolioSummary.totalCorrectedAmount)}
+            {formatBRL(metrics.totalCorrectedAmount)}
           </p>
           <span className="text-[11px] text-emerald-700 font-bold block mt-1">
-            +{portfolioSummary.currentYieldRate.toFixed(2).replace('.', ',')}% (+{formatBRL(portfolioSummary.totalProfitAmount)})
+            +{metrics.currentYieldRate.toFixed(2).replace('.', ',')}% (+{formatBRL(metrics.totalProfitAmount)})
           </span>
         </div>
 
@@ -72,10 +72,10 @@ export const ProjectionSimulator: React.FC<ProjectionSimulatorProps> = ({ showVa
             </span>
           </div>
           <p className="font-mono text-xl sm:text-2xl font-black text-slate-900 mt-1">
-            {formatBRL(portfolioSummary.projectedAmountAtLockupEnd)}
+            {formatBRL(11840.0)}
           </p>
           <span className="text-[11px] text-amber-800 font-bold block mt-1">
-            ~17,6% projetado (+{formatBRL(portfolioSummary.projectedAmountAtLockupEnd - portfolioSummary.initialContribution)})
+            ~18,4% projetado (+{formatBRL(1840.0)})
           </span>
         </div>
       </div>

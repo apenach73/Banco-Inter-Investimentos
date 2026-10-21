@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Printer, ShieldCheck, Download, CheckCircle2, Lock } from 'lucide-react';
 import { portfolioSummary, fiiAssets } from '../data/portfolioData';
+import { calculateInvestmentMetrics } from '../utils/dateCalculations';
 
 interface OfficialReportModalProps {
   isOpen: boolean;
@@ -10,6 +11,8 @@ interface OfficialReportModalProps {
 
 export const OfficialReportModal: React.FC<OfficialReportModalProps> = ({ isOpen, onClose, showValues }) => {
   if (!isOpen) return null;
+
+  const metrics = calculateInvestmentMetrics();
 
   const formatBRL = (val: number) => {
     if (!showValues) return 'R$ ••••••••';
@@ -37,26 +40,27 @@ export const OfficialReportModal: React.FC<OfficialReportModalProps> = ({ isOpen
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-16 items-center justify-center overflow-hidden rounded-2xl bg-[#FF7A00] p-0.5 shadow-md border border-[#FF7A00]/20">
               <img
-                src="/banco-inter-logo.jpg"
-                alt="Logo Banco Inter"
+                src="/assets/aistudio/3afb1b054f7646acabdcd1e953f77c7d_thumb1_65df5df6.jpg"
+                alt="Logo BANCO INTER"
                 className="h-full w-full object-cover rounded-xl"
-                referrerPolicy="no-referrer"
               />
             </div>
             <div>
-              <h1 className="text-xl font-black text-slate-900 print:text-black tracking-tight">BANCO INTER S.A.</h1>
+              <h1 className="text-xl font-black text-slate-900 print:text-black tracking-tight uppercase">
+                BANCO INTER S.A.
+              </h1>
               <p className="text-xs text-slate-500 print:text-neutral-600">
                 Inter DTVM Ltda. • CNPJ: 18.945.670/0001-46 • Registro CVM nº 356
               </p>
               <p className="text-[11px] text-[#FF7A00] font-bold">
-                DEMONSTRATIVO CONSOLIDADO DE CUSTÓDIA & RENDIMENTO
+                DEMONSTRATIVO CONSOLIDADO DE CUSTÓDIA & RENDIMENTO FII
               </p>
             </div>
           </div>
 
           <div className="text-right hidden sm:block">
-            <span className="text-xs text-slate-500 print:text-neutral-600 block">Posição Apurada em</span>
-            <strong className="font-mono text-sm text-slate-900 print:text-black">{portfolioSummary.currentDate}</strong>
+            <span className="text-xs text-slate-500 print:text-neutral-600 block">Posição em:</span>
+            <strong className="font-mono text-sm text-slate-900 print:text-black">{metrics.currentDateFormatted}</strong>
           </div>
         </div>
 
@@ -64,10 +68,10 @@ export const OfficialReportModal: React.FC<OfficialReportModalProps> = ({ isOpen
         <div className="mt-4 rounded-xl border border-[#FF7A00]/30 bg-[#FFF9F5] p-3.5 text-xs text-slate-800 print:text-amber-900 print:bg-amber-50">
           <div className="flex items-center gap-2 font-bold text-slate-900">
             <Lock className="h-4 w-4 shrink-0 text-[#FF7A00] print:text-amber-800" />
-            <span>AVISO DE CARÊNCIA: SALDO BLOQUEADO ATÉ {portfolioSummary.lockupEndDate}</span>
+            <span>SALDO BLOQUEADO PARA RESGATE ATÉ {metrics.lockupEndDate}</span>
           </div>
           <p className="mt-1 text-[11px] leading-relaxed text-slate-600 print:text-neutral-700">
-            Aporte estruturado de fundos imobiliários com prazo de bloqueio até 31/10/2026. Resgate antecipado não permitido durante o período de carência.
+            Carência contratual de investimento sob cobrança de taxas de 28% a título de IOF, IRPF e taxas administrativas para eventuais tentativas de liquidação antecipada. Desbloqueio e liquidação automáticos em 31/10/2026.
           </p>
         </div>
 
@@ -75,37 +79,37 @@ export const OfficialReportModal: React.FC<OfficialReportModalProps> = ({ isOpen
         <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 rounded-2xl bg-slate-50 print:bg-neutral-100 p-4 border border-slate-200/80 print:border-neutral-300 text-xs">
           <div>
             <span className="text-slate-500 print:text-neutral-600 block font-medium">Titular da Conta</span>
-            <strong className="text-slate-900 print:text-black block text-sm">{portfolioSummary.accountHolder}</strong>
-            <span className="text-slate-400 font-mono">{portfolioSummary.accountNumber}</span>
+            <strong className="text-slate-900 print:text-black block text-sm">Alexandre Penante da Rocha</strong>
+            <span className="text-slate-400 font-mono">Conta: 9482103-7</span>
           </div>
 
           <div>
             <span className="text-slate-500 print:text-neutral-600 block font-medium">Aporte Inicial</span>
-            <strong className="text-slate-900 print:text-black block text-sm">{formatBRL(portfolioSummary.initialContribution)}</strong>
-            <span className="text-slate-400">Data: {portfolioSummary.contributionDate}</span>
+            <strong className="text-slate-900 print:text-black block text-sm">{formatBRL(metrics.initialContribution)}</strong>
+            <span className="text-slate-400">Data: {metrics.contributionDate}</span>
           </div>
 
           <div>
-            <span className="text-slate-500 print:text-neutral-600 block font-medium">Rendimento Acumulado</span>
+            <span className="text-slate-500 print:text-neutral-600 block font-medium">Rendimento Atual</span>
             <strong className="text-emerald-700 print:text-emerald-700 block text-sm font-bold">
-              +{portfolioSummary.currentYieldRate.toFixed(2).replace('.', ',')}%
+              +{metrics.currentYieldRate.toFixed(2).replace('.', ',')}%
             </strong>
-            <span className="text-emerald-700 font-medium">+{formatBRL(portfolioSummary.totalProfitAmount)}</span>
+            <span className="text-emerald-700 font-medium">+{formatBRL(metrics.totalProfitAmount)}</span>
           </div>
 
           <div>
-            <span className="text-slate-500 print:text-neutral-600 block font-medium">Montante Atual Corrigido</span>
+            <span className="text-slate-500 print:text-neutral-600 block font-medium">Montante Total Corrigido</span>
             <strong className="text-slate-950 print:text-black block text-base font-mono font-black">
-              {formatBRL(portfolioSummary.totalCorrectedAmount)}
+              {formatBRL(metrics.totalCorrectedAmount)}
             </strong>
-            <span className="text-[#FF7A00] print:text-amber-700 text-[10px] font-bold">Bloqueado até 31/10</span>
+            <span className="text-[#FF7A00] print:text-amber-700 text-[10px] font-bold">Bloqueado até {metrics.lockupEndDate}</span>
           </div>
         </div>
 
         {/* FII Table */}
         <div className="mt-6">
           <h2 className="text-xs uppercase font-bold text-slate-700 print:text-neutral-700 tracking-wider mb-3">
-            Detalhamento por Ativo em Carteira
+            Detalhamento da Carteira Diversificada de Fundos Imobiliários
           </h2>
           <div className="overflow-x-auto rounded-xl border border-slate-200 print:border-neutral-300">
             <table className="w-full text-left text-xs">
@@ -113,7 +117,7 @@ export const OfficialReportModal: React.FC<OfficialReportModalProps> = ({ isOpen
                 <tr>
                   <th className="p-3">Fundo (Ticker)</th>
                   <th className="p-3">Cotas</th>
-                  <th className="p-3">Preço Compra</th>
+                  <th className="p-3">Preço Médio</th>
                   <th className="p-3">Cotação Atual</th>
                   <th className="p-3">Proventos</th>
                   <th className="p-3">Montante Total</th>
@@ -146,9 +150,9 @@ export const OfficialReportModal: React.FC<OfficialReportModalProps> = ({ isOpen
               <tfoot className="bg-slate-100 print:bg-neutral-200 font-bold border-t border-slate-200 print:border-neutral-300 text-slate-900 print:text-black">
                 <tr>
                   <td className="p-3" colSpan={4}>TOTAL CONSOLIDADO (100%)</td>
-                  <td className="p-3 text-emerald-700 print:text-emerald-700 font-mono font-bold">+{formatBRL(portfolioSummary.accumulatedDividends)}</td>
-                  <td className="p-3 font-mono text-sm font-black">{formatBRL(portfolioSummary.totalCorrectedAmount)}</td>
-                  <td className="p-3 text-right text-emerald-700 print:text-emerald-700 font-mono font-bold">+{portfolioSummary.currentYieldRate.toFixed(2).replace('.', ',')}%</td>
+                  <td className="p-3 text-emerald-700 print:text-emerald-700 font-mono font-bold">+{formatBRL(metrics.accumulatedDividends)}</td>
+                  <td className="p-3 font-mono text-sm font-black">{formatBRL(metrics.totalCorrectedAmount)}</td>
+                  <td className="p-3 text-right text-emerald-700 print:text-emerald-700 font-mono font-bold">+{metrics.currentYieldRate.toFixed(2).replace('.', ',')}%</td>
                 </tr>
               </tfoot>
             </table>
@@ -161,7 +165,10 @@ export const OfficialReportModal: React.FC<OfficialReportModalProps> = ({ isOpen
             • <strong>Isenção Fiscal:</strong> Os rendimentos distribuídos por Fundos Imobiliários (FIIs) são isentos de Imposto de Renda Retido na Fonte (IRRF) para pessoas físicas, conforme preceitua a Lei nº 11.033/2004.
           </p>
           <p>
-            • <strong>Autenticação B3:</strong> Código de Custódia Eletrônica: <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-800">B3-INT-20260919-94821037-LOCK</code>
+            • <strong>Regulamentação e Compliance:</strong> Lei nº 9.613/1998 e Circular Banco Central do Brasil nº 3.978/2020.
+          </p>
+          <p>
+            • <strong>Autenticação B3:</strong> Código de Custódia Eletrônica: <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-800 font-mono">B3-INTER-2026-94821037-LOCK</code>
           </p>
         </div>
 
