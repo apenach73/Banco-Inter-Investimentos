@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { LockedNoticeBanner } from './components/LockedNoticeBanner';
 import { ConsolidatedHero } from './components/ConsolidatedHero';
-import { EvolutionChart } from './components/EvolutionChart';
 import { AssetAllocationList } from './components/AssetAllocationList';
 import { ProjectionSimulator } from './components/ProjectionSimulator';
 import { AssetDetailModal } from './components/AssetDetailModal';
@@ -48,7 +47,7 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8 space-y-6">
-        {/* 1. Hero: Montante Total Corrigido & Rendimento de 14,25% até a data do celular */}
+        {/* 1. Hero: Montante Total Corrigido & Rendimento de 18,4% até a data do celular */}
         <section aria-label="Consolidado de investimentos">
           <ConsolidatedHero
             showValues={showValues}
@@ -56,12 +55,7 @@ export default function App() {
           />
         </section>
 
-        {/* 2. Evolução Gráfica Patrimonial (Maio/26 - Out/26) */}
-        <section aria-label="Evolução patrimonial gráfica">
-          <EvolutionChart showValues={showValues} />
-        </section>
-
-        {/* 3. Carteira Diversificada de Fundos Imobiliários */}
+        {/* 2. Carteira Diversificada de Fundos Imobiliários */}
         <section aria-label="Ativos da carteira de FIIs">
           <AssetAllocationList
             showValues={showValues}

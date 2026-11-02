@@ -10,13 +10,13 @@ export interface DynamicInvestmentMetrics {
   totalDays: number;
   daysRemaining: number;
   percentElapsed: number;
-  currentYieldRate: number; // 14.25%
+  currentYieldRate: number; // 18.4%
   initialContribution: number; // 10000.00
-  totalCorrectedAmount: number; // 11425.00
-  totalProfitAmount: number; // 1425.00
-  capitalAppreciation: number; // 865.50
-  accumulatedDividends: number; // 559.50
-  dailyAccrualRate: number; // ~R$ 8.96 / day
+  totalCorrectedAmount: number; // 11840.00
+  totalProfitAmount: number; // 1840.00
+  capitalAppreciation: number; // 1120.00
+  accumulatedDividends: number; // 720.00
+  dailyAccrualRate: number; // ~R$ / day
   lockupEndDate: string; // "31/10/2026"
   contributionDate: string; // "15/05/2026"
   isLocked: boolean;
@@ -56,14 +56,14 @@ export function calculateInvestmentMetrics(): DynamicInvestmentMetrics {
   const daysRemaining = Math.max(0, Math.ceil((endDate.getTime() - effectiveNow.getTime()) / (1000 * 60 * 60 * 24)));
   const percentElapsed = Math.min(100, Math.max(0, Math.round((daysElapsed / totalDays) * 100)));
 
-  // Target yield: 14.25% as specified by the user
-  const currentYieldRate = 14.25;
-  const totalProfitAmount = +(initialContribution * (currentYieldRate / 100)).toFixed(2); // 1425.00
-  const totalCorrectedAmount = +(initialContribution + totalProfitAmount).toFixed(2); // 11425.00
+  // Target yield: 18.4% as specified by the user
+  const currentYieldRate = 18.4;
+  const totalProfitAmount = +(initialContribution * (currentYieldRate / 100)).toFixed(2); // 1840.00
+  const totalCorrectedAmount = +(initialContribution + totalProfitAmount).toFixed(2); // 11840.00
 
-  // Asset breakdown: capital appreciation (cotas) ~60.7% + dividends reinvested ~39.3%
-  const capitalAppreciation = 865.5;
-  const accumulatedDividends = 559.5;
+  // Asset breakdown: capital appreciation (cotas) R$ 1.120,00 + dividends reinvested R$ 720,00
+  const capitalAppreciation = 1120.0;
+  const accumulatedDividends = 720.0;
   const dailyAccrualRate = +(totalProfitAmount / (daysElapsed || 1)).toFixed(2);
 
   // Formatted date string for display

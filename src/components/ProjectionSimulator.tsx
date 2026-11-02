@@ -37,7 +37,7 @@ export const ProjectionSimulator: React.FC<ProjectionSimulatorProps> = ({ showVa
       </div>
 
       {/* Projection Comparison Box */}
-      <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Box 1: Aporte Inicial */}
         <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200/80">
           <span className="text-xs text-slate-500 font-medium block">Aporte Inicial (Maio/26)</span>
@@ -52,30 +52,14 @@ export const ProjectionSimulator: React.FC<ProjectionSimulatorProps> = ({ showVa
           <div className="flex items-center justify-between">
             <span className="text-xs text-[#FF7A00] font-bold block">Hoje ({metrics.currentDateShort})</span>
             <span className="rounded bg-[#FF7A00]/20 px-1.5 py-0.5 text-[10px] font-black text-[#FF7A00]">
-              Atual (+14,25%)
+              Atual (+18,4%)
             </span>
           </div>
           <p className="font-mono text-xl sm:text-2xl font-black text-slate-900 mt-1">
             {formatBRL(metrics.totalCorrectedAmount)}
           </p>
           <span className="text-[11px] text-emerald-700 font-bold block mt-1">
-            +{metrics.currentYieldRate.toFixed(2).replace('.', ',')}% (+{formatBRL(metrics.totalProfitAmount)})
-          </span>
-        </div>
-
-        {/* Box 3: Data de Desbloqueio */}
-        <div className="rounded-2xl bg-amber-50/70 p-4 border border-amber-300/60">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-amber-900 font-bold block">No Desbloqueio (31/10/26)</span>
-            <span className="rounded bg-amber-200/70 px-1.5 py-0.5 text-[10px] font-black text-amber-900">
-              Projeção
-            </span>
-          </div>
-          <p className="font-mono text-xl sm:text-2xl font-black text-slate-900 mt-1">
-            {formatBRL(11840.0)}
-          </p>
-          <span className="text-[11px] text-amber-800 font-bold block mt-1">
-            ~18,4% projetado (+{formatBRL(1840.0)})
+            +18,4% (+{formatBRL(metrics.totalProfitAmount)})
           </span>
         </div>
       </div>
@@ -125,7 +109,7 @@ export const ProjectionSimulator: React.FC<ProjectionSimulatorProps> = ({ showVa
                 {selectedUnlockAction === 'checking_account' && <CheckCircle className="h-4 w-4 text-[#FF7A00]" />}
               </div>
               <p className="text-[11px] text-slate-600 leading-relaxed font-medium">
-                Liquidação integral e crédito de todo o saldo corrigido na Conta Corrente Inter no dia 31/10/2026. Caso a data de desbloqueio seja nos finais de semana, o saque só poderá ser solicitado no próximo dia útil. A solicitação de saque segue as normas da B3, sendo creditado somente um dia após o pedido.
+                Liquidação integral e crédito de todo o saldo corrigido na Conta Corrente Inter no dia 31/10/2026. Caso a data de desbloqueio seja nos finais de semana e feriados, o saque só poderá ser solicitado no próximo dia útil.
               </p>
             </div>
             <span className="mt-2 text-[10px] text-slate-500 font-semibold">Sem taxa de resgate</span>

@@ -94,7 +94,7 @@ export const ConsolidatedHero: React.FC<ConsolidatedHeroProps> = ({ showValues, 
               +{formatBRL(metrics.capitalAppreciation)}
             </p>
             <p className="text-[11px] text-slate-500 font-medium mt-0.5">
-              +8,65% valorização em bolsa
+              +11,20% valorização em bolsa
             </p>
           </div>
 
@@ -111,7 +111,7 @@ export const ConsolidatedHero: React.FC<ConsolidatedHeroProps> = ({ showValues, 
               +{formatBRL(metrics.accumulatedDividends)}
             </p>
             <p className="text-[11px] text-slate-500 mt-0.5 flex items-center justify-between font-medium">
-              <span>+5,60% reinvestidos</span>
+              <span>+7,20% reinvestidos</span>
               <span className="text-emerald-700 font-bold underline underline-offset-2">ver extrato</span>
             </p>
           </div>
