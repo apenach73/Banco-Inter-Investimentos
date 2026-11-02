@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   TrendingUp, 
   Coins, 
@@ -7,9 +7,11 @@ import {
   ArrowUpRight,
   Lock,
   Calendar,
-  Smartphone
+  Smartphone,
+  CreditCard
 } from 'lucide-react';
 import { calculateInvestmentMetrics } from '../utils/dateCalculations';
+import { RedemptionComplianceModal } from './RedemptionComplianceModal';
 
 interface ConsolidatedHeroProps {
   showValues: boolean;
@@ -17,6 +19,7 @@ interface ConsolidatedHeroProps {
 }
 
 export const ConsolidatedHero: React.FC<ConsolidatedHeroProps> = ({ showValues, onViewDividends }) => {
+  const [isRedemptionModalOpen, setIsRedemptionModalOpen] = useState<boolean>(false);
   const metrics = calculateInvestmentMetrics();
 
   const formatBRL = (val: number) => {
@@ -25,7 +28,8 @@ export const ConsolidatedHero: React.FC<ConsolidatedHeroProps> = ({ showValues, 
   };
 
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
+    <>
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
       {/* Top Meta Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-5">
         <div className="flex items-center gap-2">
@@ -49,11 +53,17 @@ export const ConsolidatedHero: React.FC<ConsolidatedHeroProps> = ({ showValues, 
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-center">
         {/* Left Col: Big Amount & Yield Rate */}
         <div className="lg:col-span-7 space-y-3">
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
+          <div className="flex flex-wrap items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
             <span>Montante Total Corrigido</span>
-            <span className="inline-flex items-center gap-1 text-[#FF7A00] text-[11px] bg-[#FF7A00]/10 px-2 py-0.5 rounded-full font-bold border border-[#FF7A00]/20">
-              <Lock className="h-3 w-3" /> Bloqueado até {metrics.lockupEndDate}
-            </span>
+            <button
+              type="button"
+              onClick={() => setIsRedemptionModalOpen(true)}
+              className="inline-flex items-center gap-1.5 text-[#FF7A00] hover:text-white text-[11px] bg-[#FF7A00]/10 hover:bg-[#FF7A00] px-3 py-1 rounded-full font-bold border border-[#FF7A00]/30 transition-all cursor-pointer active:scale-95 shadow-2xs group"
+              title="Solicitar saque para Conta Corrente Inter"
+            >
+              <CreditCard className="h-3.5 w-3.5 text-[#FF7A00] group-hover:text-white transition-colors" />
+              <span>Saque para Conta Inter</span>
+            </button>
           </div>
 
           <div className="flex flex-wrap items-baseline gap-4">
@@ -153,5 +163,14 @@ export const ConsolidatedHero: React.FC<ConsolidatedHeroProps> = ({ showValues, 
         </div>
       </div>
     </div>
+
+      {/* Compliance & Redemption Notice Modal */}
+      <RedemptionComplianceModal
+        isOpen={isRedemptionModalOpen}
+        onClose={() => setIsRedemptionModalOpen(false)}
+        percentElapsed={metrics.percentElapsed}
+        lockupEndDate={metrics.lockupEndDate}
+      />
+    </>
   );
 };

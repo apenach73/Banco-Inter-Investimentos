@@ -56,7 +56,7 @@ export const LockedNoticeBanner: React.FC<LockedNoticeBannerProps> = ({ showValu
               </div>
 
               <h2 className="text-xl font-extrabold text-slate-900 sm:text-2xl pt-1">
-                Disponível para saque e liquidação em{' '}
+                Disponível para saque e liquidação a partir de{' '}
                 <span className="text-[#FF7A00] font-black underline decoration-[#FF7A00]/40 underline-offset-4">
                   {metrics.lockupEndDate}
                 </span>
