@@ -53,15 +53,15 @@ export const ConsolidatedHero: React.FC<ConsolidatedHeroProps> = ({ showValues, 
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-center">
         {/* Left Col: Big Amount & Yield Rate */}
         <div className="lg:col-span-7 space-y-3">
-          <div className="flex flex-wrap items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
+          <div className="flex flex-wrap items-center gap-2.5 text-xs font-bold text-slate-500 uppercase tracking-wider">
             <span>Montante Total Corrigido</span>
             <button
               type="button"
               onClick={() => setIsRedemptionModalOpen(true)}
-              className="inline-flex items-center gap-1.5 text-[#FF7A00] hover:text-white text-[11px] bg-[#FF7A00]/10 hover:bg-[#FF7A00] px-3 py-1 rounded-full font-bold border border-[#FF7A00]/30 transition-all cursor-pointer active:scale-95 shadow-2xs group"
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#FF7A00] hover:bg-[#E06900] active:scale-95 active:bg-[#CC6200] text-white px-3.5 py-1 text-xs font-black shadow-sm shadow-[#FF7A00]/30 transition-all duration-150 cursor-pointer hover:shadow-md hover:shadow-[#FF7A00]/35 hover:scale-[1.02] group"
               title="Solicitar saque para Conta Corrente Inter"
             >
-              <CreditCard className="h-3.5 w-3.5 text-[#FF7A00] group-hover:text-white transition-colors" />
+              <CreditCard className="h-3.5 w-3.5 text-white transition-transform duration-150 group-hover:rotate-[-8deg] group-hover:scale-110" />
               <span>Saque para Conta Inter</span>
             </button>
           </div>

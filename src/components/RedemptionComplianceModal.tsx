@@ -68,8 +68,8 @@ export const RedemptionComplianceModal: React.FC<RedemptionComplianceModalProps>
               <span className="text-xs font-bold text-[#FF7A00]">
                 Departamento de Compliance & Prevenção (PLD/FT)
               </span>
-              <span className="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-black text-amber-800">
-                Aviso Regulatório
+              <span className="rounded bg-[#FF7A00]/15 px-2 py-0.5 text-[10px] font-black text-[#FF7A00] border border-[#FF7A00]/30">
+                Saque em Processamento
               </span>
             </div>
           </div>
@@ -79,11 +79,13 @@ export const RedemptionComplianceModal: React.FC<RedemptionComplianceModalProps>
         <div className="mt-5 space-y-4">
           {/* Greeting Box */}
           <div className="rounded-2xl bg-amber-50/70 p-4 border border-amber-200/90 text-amber-950">
-            <div className="flex items-center gap-2">
-              <ShieldAlert className="h-5 w-5 text-amber-700 shrink-0" />
-              <h2 className="text-base font-extrabold text-amber-900">
-                Olá, Alexandre Penante da Rocha:
-              </h2>
+            <div className="flex items-start gap-2.5">
+              <ShieldAlert className="h-5 w-5 text-amber-700 shrink-0 mt-0.5" />
+              <div>
+                <h2 className="text-sm sm:text-base font-extrabold text-amber-950 leading-snug">
+                  Olá Alexandre Penante da Rocha: <span className="text-[#FF7A00] font-black uppercase tracking-wide">SAQUE EM PROCESSAMENTO</span> após a conclusão da seguinte etapa:
+                </h2>
+              </div>
             </div>
 
             <div className="mt-3 text-xs sm:text-sm leading-relaxed text-slate-700 space-y-3 font-medium">
